@@ -2,6 +2,7 @@ DROP TABLE employees;
 DROP TABLE products;
 DROP TABLE stores;
 DROP TABLE orders;
+DROP TABLE orderid;
 DROP TABLE budget;
 DROP TABLE leave;
 
@@ -43,10 +44,17 @@ CREATE TABLE products
     , "SUBTOTAL"       NUMBER
  );
 
+ CREATE TABLE orderid
+ ( "ID"            NUMBER NOT NULL ENABLE
+    , "DATE"          DATE
+    , "MEMBERID"      NUMBER
+    ,                 PRIMARY KEY ("ID")
+ );
+
 
  CREATE TABLE budget
  ( "ID"            NUMBER NOT NULL ENABLE
-    , "MONTH"          VARCHAR2(511)
+    , "MONTH"          DATE
     , "BUDGET"         NUMBER
     ,                  PRIMARY KEY ("ID")
  );
@@ -58,6 +66,20 @@ CREATE TABLE leave
    , "STARTDATE"      VARCHAR2(511)
    , "ENDDATE"        VARCHAR2(255)
    , "STATUS"         VARCHAR2(255)
+   ,                  PRIMARY KEY ("ID")
+);
+
+
+CREATE TABLE inventory
+( "ID"            NUMBER NOT NULL ENABLE
+   , "INVENTORY"      NUMBER
+   ,                  PRIMARY KEY ("ID")
+);
+
+
+CREATE TABLE writeoff
+( "ID"            NUMBER NOT NULL ENABLE
+   , "WRITEOFF"       NUMBER
    ,                  PRIMARY KEY ("ID")
 );
 
@@ -124,42 +146,66 @@ INSERT into STORES values (8, 'Liverpool', 8);
 INSERT into STORES values (9, 'Waterloo', 9);
 INSERT into STORES values (10, 'Marina Bay', 10);
 
-INSERT into BUDGET values (1, 'Jan-2017', 19837500);
-INSERT into BUDGET values (2, 'Feb-2017', 18150000);
-INSERT into BUDGET values (3, 'Mar-2017', 15000000);
-INSERT into BUDGET values (4, 'Apr-2017', 13537500);
-INSERT into BUDGET values (5, 'May-2017', 15000000);
-INSERT into BUDGET values (6, 'Jun-2017', 16537500);
-INSERT into BUDGET values (7, 'Jul-2017', 18150000);
-INSERT into BUDGET values (8, 'Aug-2017', 19837500);
-INSERT into BUDGET values (9, 'Sep-2017', 16537500);
-INSERT into BUDGET values (10, 'Oct-2017', 15000000);
-INSERT into BUDGET values (11, 'Nov-2017', 18150000);
-INSERT into BUDGET values (12, 'Dec-2017', 21600000);
-INSERT into BUDGET values (13, 'Jan-2018', 21821250);
-INSERT into BUDGET values (14, 'Feb-2018', 19965000);
-INSERT into BUDGET values (15, 'Mar-2018', 16500000);
-INSERT into BUDGET values (16, 'Apr-2018', 14891250);
-INSERT into BUDGET values (17, 'May-2018', 16500000);
-INSERT into BUDGET values (18, 'Jun-2018', 18191250);
-INSERT into BUDGET values (19, 'Jul-2018', 19965000);
-INSERT into BUDGET values (20, 'Aug-2018', 21821250);
-INSERT into BUDGET values (21, 'Sep-2018', 18191250);
-INSERT into BUDGET values (22, 'Oct-2018', 16500000);
-INSERT into BUDGET values (23, 'Nov-2018', 19965000);
-INSERT into BUDGET values (24, 'Dec-2018', 23760000);
-INSERT into BUDGET values (25, 'Jan-2019', 24003375);
-INSERT into BUDGET values (26, 'Feb-2019', 21961500);
-INSERT into BUDGET values (27, 'Mar-2019', 18150000);
-INSERT into BUDGET values (28, 'Apr-2019', 16380375);
-INSERT into BUDGET values (29, 'May-2019', 18150000);
-INSERT into BUDGET values (30, 'Jun-2019', 20010375);
-INSERT into BUDGET values (31, 'Jul-2019', 21961500);
-INSERT into BUDGET values (32, 'Aug-2019', 24003375);
-INSERT into BUDGET values (33, 'Sep-2019', 20010375);
-INSERT into BUDGET values (34, 'Oct-2019', 18150000);
-INSERT into BUDGET values (35, 'Nov-2019', 21961500);
-INSERT into BUDGET values (36, 'Dec-2019', 26136000);
+INSERT into BUDGET values (1, '01-Jan-2017', 198375);
+INSERT into BUDGET values (2, '01-Feb-2017', 181500);
+INSERT into BUDGET values (3, '01-Mar-2017', 150000);
+INSERT into BUDGET values (4, '01-Apr-2017', 135375);
+INSERT into BUDGET values (5, '01-May-2017', 150000);
+INSERT into BUDGET values (6, '01-Jun-2017', 165375);
+INSERT into BUDGET values (7, '01-Jul-2017', 181500);
+INSERT into BUDGET values (8, '01-Aug-2017', 198375);
+INSERT into BUDGET values (9, '01-Sep-2017', 165375);
+INSERT into BUDGET values (10, '01-Oct-2017', 150000);
+INSERT into BUDGET values (11, '01-Nov-2017', 181500);
+INSERT into BUDGET values (12, '01-Dec-2017', 216000);
+INSERT into BUDGET values (13, '01-Jan-2018', 218212);
+INSERT into BUDGET values (14, '01-Feb-2018', 199650);
+INSERT into BUDGET values (15, '01-Mar-2018', 165000);
+INSERT into BUDGET values (16, '01-Apr-2018', 148912);
+INSERT into BUDGET values (17, '01-May-2018', 165000);
+INSERT into BUDGET values (18, '01-Jun-2018', 181912);
+INSERT into BUDGET values (19, '01-Jul-2018', 199650);
+INSERT into BUDGET values (20, '01-Aug-2018', 218212);
+INSERT into BUDGET values (21, '01-Sep-2018', 181912);
+INSERT into BUDGET values (22, '01-Oct-2018', 165000);
+INSERT into BUDGET values (23, '01-Nov-2018', 199650);
+INSERT into BUDGET values (24, '01-Dec-2018', 237600);
+INSERT into BUDGET values (25, '01-Jan-2019', 240033);
+INSERT into BUDGET values (26, '01-Feb-2019', 219615);
+INSERT into BUDGET values (27, '01-Mar-2019', 181500);
+INSERT into BUDGET values (28, '01-Apr-2019', 163803);
+INSERT into BUDGET values (29, '01-May-2019', 181500);
+INSERT into BUDGET values (30, '01-Jun-2019', 200103);
+INSERT into BUDGET values (31, '01-Jul-2019', 219615);
+INSERT into BUDGET values (32, '01-Aug-2019', 240033);
+INSERT into BUDGET values (33, '01-Sep-2019', 200103);
+INSERT into BUDGET values (34, '01-Oct-2019', 181500);
+INSERT into BUDGET values (35, '01-Nov-2019', 219615);
+INSERT into BUDGET values (36, '01-Dec-2019', 261360);
+
+
+INSERT into INVENTORY values (1, 155000);
+INSERT into INVENTORY values (2, 123000);
+INSERT into INVENTORY values (3, 9800);
+INSERT into INVENTORY values (4, 7600);
+INSERT into INVENTORY values (5, 8300);
+INSERT into INVENTORY values (6, 7100);
+INSERT into INVENTORY values (7, 10400);
+INSERT into INVENTORY values (8, 8000);
+INSERT into INVENTORY values (9, 18100);
+INSERT into INVENTORY values (10, 16300);
+
+
+INSERT into WRITEOFF values (1, 10);
+INSERT into WRITEOFF values (2, 24);
+INSERT into WRITEOFF values (3, 8);
+INSERT into WRITEOFF values (4, 5);
+INSERT into WRITEOFF values (5, 10);
+INSERT into WRITEOFF values (6, 20);
+INSERT into WRITEOFF values (7, 31);
+INSERT into WRITEOFF values (8, 3);
+INSERT into WRITEOFF values (9, 40);
+INSERT into WRITEOFF values (10, 80);
 
 
 INSERT into LEAVE values (3, 'Annual Leave', '01-Jun-19', '05-Jun-19', 'Pending Approval');
